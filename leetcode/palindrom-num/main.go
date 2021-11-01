@@ -33,47 +33,31 @@ package main
 
 import (
 	"fmt"
-	"math"
 )
 
-func getLength(x int) int {
-	size := 0
-	iter := x
+func getSliceFromInt(x int) []int {
+
+	s := make([]int, 0)
+	i, iter := 0, x
 	for {
-		if iter = iter / 10; iter != 0 {
-			size += 1
-		} else {
+		if iter == 0 {
 			break
 		}
+		s = append(s, iter%10)
+		iter /= 10
+		i++
 	}
-	if size != 0 {
-		size += 1
-	}
-	return size
+	return s
 }
 
 func isPalindrome(x int) bool {
-	if x < 0 || (-231 > x) || (x > 230) {
-		return false
-	}
-	len := getLength(x)
-	if len < 2 {
+	if (x < 0) || (x/10 < 0) {
 		return false
 	}
 
-	s := make([]int, len)
-	j := 0
-	iter := x
-	for i := math.Pow(10., float64(len-1)); i >= 1; i /= 10 {
-		if iter != 0 {
-			s[j] = iter / int(i)
-			iter %= int(i)
-			j++
-		}
-	}
-
-	for i := 0; i < len/2; i++ {
-		if s[i] != s[len-1-i] {
+	s := getSliceFromInt(x)
+	for i := 0; i < len(s)/2; i++ {
+		if s[i] != s[len(s)-1-i] {
 			return false
 		}
 	}
