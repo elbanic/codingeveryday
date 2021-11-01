@@ -24,10 +24,9 @@ func (uc *urlChecker) check(url string) {
 	uc.mu.Lock()
 	defer uc.mu.Unlock()
 	uc.urls[url] = true
-	return
 }
 
-func (uc urlChecker) getCheck(url string) bool {
+func (uc *urlChecker) getCheck(url string) bool {
 	uc.mu.Lock()
 	defer uc.mu.Unlock()
 	return uc.urls[url]
@@ -42,14 +41,17 @@ func Crawl(url string, depth int, fetcher Fetcher, uc *urlChecker) {
 	if depth <= 0 {
 		return
 	}
-	body, urls, err := fetcher.Fetch(url)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+
 	if !uc.getCheck(url) {
+		body, urls, err := fetcher.Fetch(url)
 		uc.check(url)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
 		fmt.Printf("found: %s %q\n", url, body)
+
 		var wg sync.WaitGroup
 		for _, u := range urls {
 			wg.Add(1)
