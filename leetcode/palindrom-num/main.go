@@ -51,8 +51,11 @@ func getSliceFromInt(x int) []int {
 }
 
 func isPalindrome(x int) bool {
-	if (x < 0) || (x/10 < 0) {
+	if x < 0 {
 		return false
+	}
+	if x/10 < 0 {
+		return true
 	}
 
 	s := getSliceFromInt(x)
