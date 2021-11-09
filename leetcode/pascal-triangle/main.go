@@ -11,7 +11,6 @@ Example 2:
 	Input: numRows = 1
 	Output: [[1]]
 
-
 Constraints:
 	1 <= numRows <= 30
 
@@ -22,7 +21,6 @@ package main
 import "fmt"
 
 func generateTriangle(depth int, prev []int, triangle [][]int) [][]int {
-
 	triangle = append(triangle, prev)
 	depth--
 	if depth == 0 {
@@ -45,7 +43,6 @@ func generateTriangle(depth int, prev []int, triangle [][]int) [][]int {
 }
 
 func generate(numRows int) [][]int {
-
 	var triangle [][]int
 	seed := []int{1}
 	return generateTriangle(numRows, seed, triangle)

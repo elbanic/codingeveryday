@@ -43,18 +43,18 @@ import (
 )
 
 func merge(nums1 []int, m int, nums2 []int, n int) {
-	var merged []int
-	if len(nums1) > m {
-		nums1 = nums1[:m]
-	}
-	if len(nums2) > n {
-		nums2 = nums2[:n]
-	}
-	merged = append(merged, nums1...)
-	merged = append(merged, nums2...)
+
+	var merged, tempNums1, tempNums2 []int
+	tempNums1 = nums1[:m]
+	tempNums2 = nums2[:n]
+	merged = append(merged, tempNums1...)
+	merged = append(merged, tempNums2...)
 
 	sort.Ints(merged)
-	fmt.Println(merged)
+	//copy(nums1, merged)
+	for i:=0; i<len(merged); i++ {
+		nums1[i] = merged[i]
+	}
 }
 
 func main() {
