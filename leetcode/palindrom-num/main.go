@@ -38,6 +38,7 @@ import (
 	"fmt"
 )
 
+//converting integer to string
 func getSliceFromInt(x int) []int {
 
 	s := make([]int, 0)
@@ -53,6 +54,11 @@ func getSliceFromInt(x int) []int {
 	return s
 }
 
+//reverting the right half numbers
+func revertedNumber(x int, r int) int {
+	return (r * 10) + (x % 10)
+}
+
 func isPalindrome(x int) bool {
 	if x < 0 {
 		return false
@@ -60,15 +66,26 @@ func isPalindrome(x int) bool {
 	if x/10 < 0 {
 		return true
 	}
-
-	s := getSliceFromInt(x)
-	for i := 0; i < len(s)/2; i++ {
-		if s[i] != s[len(s)-1-i] {
-			return false
-		}
+	if x % 10 == 0 && x != 0 {
+		return false
 	}
-	return true
+
+	//s := getSliceFromInt(x)
+	//for i := 0; i < len(s)/2; i++ {
+	//	if s[i] != s[len(s)-1-i] {
+	//		return false
+	//	}
+	//}
+
+	r := 0
+	for x > r {
+		r = revertedNumber(x, r)
+		x /= 10
+	}
+	return x == r || x == r/10
 }
+
+
 
 func main() {
 	fmt.Println(isPalindrome(121))
