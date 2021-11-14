@@ -1,35 +1,38 @@
 /*
-https://leetcode.com/problems/kth-largest-element-in-an-array/submissions/
-Given an integer array `nums` and an integer `k`, return *the* `k th` *largest element in the array*.
-Note that it is the `K th` largest element in the sorted order, not the `k th` distinct element.
+https://leetcode.com/problems/top-k-frequent-elements/
+Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
 
 Example 1:
-	Input: nums = [3,2,1,5,6,4], k = 2
-	Output: 5
+	Input: nums = [1,1,1,2,2,3], k = 2
+	Output: [1,2]
 
 Example 2:
-	Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
-	Output: 4
+	Input: nums = [1], k = 1
+	Output: [1]
  */
 
 package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
+type node struct {
+	key int
+	value int
+}
+
 type maxHeap struct {
-	maximumHeap []int
+	maximumHeap []node
 	heapSize    int
 	realSize    int
 }
 
 func newMaxHeap(heapSize int) maxHeap {
-	return maxHeap{maximumHeap: []int{0}, heapSize: heapSize+1, realSize: 0}
+	return maxHeap{maximumHeap: []node{node{0,0}}, heapSize: heapSize+1, realSize: 0}
 }
 
-func (h *maxHeap) add(e int) {
+func (h *maxHeap) add(n node) {
 	h.realSize++
 	if h.realSize > h.heapSize {
 		fmt.Println("Add too many elements!")
@@ -37,11 +40,11 @@ func (h *maxHeap) add(e int) {
 		return
 	}
 
-	h.maximumHeap = append(h.maximumHeap, e)
+	h.maximumHeap = append(h.maximumHeap, n)
 	index := h.realSize
 	parent := index / 2
 
-	for h.maximumHeap[index] > h.maximumHeap[parent] && index > 1 {
+	for h.maximumHeap[index].value > h.maximumHeap[parent].value && index > 1 {
 		temp := h.maximumHeap[index]
 		h.maximumHeap[index] = h.maximumHeap[parent]
 		h.maximumHeap[parent] = temp
@@ -50,15 +53,15 @@ func (h *maxHeap) add(e int) {
 	}
 }
 
-func (h maxHeap) peak() int{
+func (h maxHeap) peak() node{
 	return h.maximumHeap[1]
 }
 
-func (h *maxHeap) pop() int{
+func (h *maxHeap) pop() node{
 
 	if h.realSize < 1 {
 		fmt.Println("Don't have any element!")
-		return int(^uint(0) >> 1) // integer MAX
+		return node{}
 	} else {
 		removeElement := h.maximumHeap[1]
 		h.maximumHeap[1] = h.maximumHeap[h.realSize]
@@ -69,8 +72,9 @@ func (h *maxHeap) pop() int{
 			left := index * 2
 			right := (index * 2) + 1
 
-			if h.maximumHeap[index] < h.maximumHeap[left] || h.maximumHeap[index] < h.maximumHeap[right] {
-				if h.maximumHeap[left] > h.maximumHeap[right] {
+			if h.maximumHeap[index].value < h.maximumHeap[left].value ||
+				h.maximumHeap[index].value < h.maximumHeap[right].value {
+				if h.maximumHeap[left].value > h.maximumHeap[right].value {
 					temp := h.maximumHeap[left]
 					h.maximumHeap[left] = h.maximumHeap[index]
 					h.maximumHeap[index] = temp
@@ -102,25 +106,43 @@ func (h maxHeap) print() {
 		for i := 1; i<= h.realSize-1; i++ {
 			fmt.Print(h.maximumHeap[i], ",")
 		}
-		fmt.Println(strconv.Itoa(h.maximumHeap[h.realSize]) + "]")
+		fmt.Print(h.maximumHeap[h.realSize])
+		fmt.Println("]")
 	}
 }
 
-func findKthLargest(nums []int, k int) int {
-	maxH := newMaxHeap(len(nums))
+func topKFrequent(nums []int, k int) []int {
+
+	mapNums := make(map[int]int)
 	for _,v := range nums {
-		maxH.add(v)
+		if _, ok := mapNums[v]; ok {
+			mapNums[v] += 1
+		} else {
+			mapNums[v] = 1
+		}
 	}
-	for i:=1; i<k; i++{
-		maxH.pop()
+	maxH := newMaxHeap(len(mapNums))
+	for k,v := range mapNums {
+		maxH.add(node{k, v})
 	}
-	return maxH.peak()
+
+	var ret []int
+	for i:=0; i<k; i++ {
+		node := maxH.pop()
+		ret = append(ret, node.key)
+	}
+	return ret
 }
 
 func main() {
-	nums1, k := []int{3,2,1,5,6,4}, 2
-	fmt.Println(findKthLargest(nums1, k))
 
-	nums2, k := []int{3,2,3,1,2,4,5,5,6}, 4
-	fmt.Println(findKthLargest(nums2, k))
+	nums1, k := []int{1,1,1,2,2,3}, 2
+	fmt.Println(topKFrequent(nums1, k))
+
+	nums2, k := []int{1}, 1
+	fmt.Println(topKFrequent(nums2, k))
+
+	nums3, k := []int{-1, -1}, 1
+	fmt.Println(topKFrequent(nums3, k))
 }
+
