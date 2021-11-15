@@ -15,10 +15,12 @@ Example 2:
 package main
 
 import (
+	//"container/heap"
 	"fmt"
 	"strconv"
 )
 
+//implement maxHeap
 type maxHeap struct {
 	maximumHeap []int
 	heapSize    int
@@ -124,3 +126,39 @@ func main() {
 	nums2, k := []int{3,2,3,1,2,4,5,5,6}, 4
 	fmt.Println(findKthLargest(nums2, k))
 }
+
+
+//Using container/heap standard library of Go
+//type maxIntHeap []int
+//
+//func (h maxIntHeap) Len() int           { return len(h) }
+//func (h maxIntHeap) Less(i, j int) bool { return h[i] > h[j] }
+//func (h maxIntHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+//func (h maxIntHeap) Peak() int{
+//	return h[0]
+//}
+//
+//func (h *maxIntHeap) Push(x interface{}) {
+//	*h = append(*h, x.(int))
+//}
+//
+//func (h *maxIntHeap) Pop() interface{} {
+//	old := *h
+//	n := len(old)
+//	x := old[n-1]
+//	*h = old[0 : n-1]
+//	return x
+//}
+//
+//func findKthLargest(nums []int, k int) int {
+//	maxH := &maxIntHeap{}
+//	heap.Init(maxH)
+//
+//	for _,v := range nums {
+//		heap.Push(maxH, v)
+//	}
+//	for i:=1; i<k; i++{
+//		heap.Pop(maxH)
+//	}
+//	return maxH.Peak()
+//}
