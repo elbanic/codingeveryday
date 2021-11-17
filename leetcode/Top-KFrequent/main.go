@@ -144,5 +144,8 @@ func main() {
 
 	nums3, k := []int{-1, -1}, 1
 	fmt.Println(topKFrequent(nums3, k))
+
+	nums4, k := []int{1,1,1,2,2,2,3,3,4,5,5,5,5}, 3
+	fmt.Println(topKFrequent(nums4, k))
 }
 

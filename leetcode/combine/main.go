@@ -58,6 +58,56 @@ func combination(depth int, slice []int, prev []int, comb [][]int) [][]int {
 	return comb
 }
 
+//backtracking
+//func backtrack(first, n, k int, curr []int, comb [][]int) [][]int {
+//
+//	if len(curr) == k {
+//		temp := make([]int, len(curr))
+//		copy(temp, curr)
+//		comb = append(comb, temp)
+//		return comb
+//	}
+//
+//	for i:=first; i < n+1; i++ {
+//		curr = append(curr, i)
+//		comb = backtrack(i+1, n, k, curr, comb)
+//		curr = curr[:len(curr)-1]
+//	}
+//	return comb
+//}
+//
+//func combine(n int, k int) [][]int {
+//	return backtrack(1, n, k, []int{}, [][]int{})
+//}
+
+//Lexicographic (binary sorted) combinations
+
+//func combine(n int, k int) [][]int {
+//	nums := []int{}
+//	for i:=1; i < k+1; i++ {
+//		nums = append(nums, i)
+//	}
+//	nums = append(nums, n+1)
+//	fmt.Println(nums)
+//
+//	var output [][]int
+//	j := 0
+//	for j < k {
+//		temp := make([]int, len(nums) - 1)
+//		copy(temp, nums)
+//		output = append(output, temp)
+//		j = 0
+//		for j < k && nums[j + 1] == nums[j]+1 {
+//			fmt.Println(nums, j)
+//			nums[j] = j + 1
+//			j++
+//			fmt.Println(nums, j)
+//		}
+//		nums[j] = nums[j] + 1
+//	}
+//	return output
+//}
+
 func main() {
 	cb := combine(4, 2)
 	for _, v := range cb {
