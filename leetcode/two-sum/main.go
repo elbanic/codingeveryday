@@ -41,6 +41,7 @@ import (
 	"sync"
 )
 
+// my answer
 func twoSum(nums []int, target int) []int {
 	ch := make(chan []int)
 	defer close(ch)
@@ -64,7 +65,49 @@ func twoSum(nums []int, target int) []int {
 	return results
 }
 
+// Approach 1 brute force
+//func twoSum(nums []int, target int) []int {
+//	for i:=0; i < len(nums); i++ {
+//		for j:=i+1; j < len(nums); j++ {
+//			if nums[j] == target - nums[i] {
+//				return []int{i, j}
+//			}
+//		}
+//	}
+//	return []int{}
+//}
+
+// Approach 2 two pass hash table
+//func twoSum(nums []int, target int) []int {
+//
+//	m := make(map[int]int)
+//	for i,v := range nums {
+//		m[v] = i
+//	}
+//
+//	for i,elem := range nums {
+//		if val,ok := m[target - elem]; ok && val != i{
+//			return []int{i, val}
+//		}
+//	}
+//	return []int{}
+//}
+
+// Approach 3 One-pass Hash Table
+//func twoSum(nums []int, target int) []int {
+//
+//	m := make(map[int]int)
+//	for i,v := range nums {
+//		if val,ok := m[target - v]; ok {
+//			return []int{i, val}
+//		}
+//		m[v] = i
+//	}
+//	return []int{}
+//}
+
 func main() {
 	fmt.Println(twoSum([]int{2, 7, 11, 15}, 9))
 	fmt.Println(twoSum([]int{3, 2, 4}, 6))
+	fmt.Println(twoSum([]int{3, 3}, 6))
 }
