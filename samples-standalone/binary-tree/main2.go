@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 type TreeNode struct {
@@ -88,6 +89,47 @@ func levelOrder(root *TreeNode) [][]int {
 	return ret
 }
 
+//maxDepth for top-down
+//func maxDepth(root *TreeNode) int {
+//	if root == nil {
+//		return 0
+//	}
+//	depth, maxDepth := 1, 1
+//	findMaxDepth(root, depth, &maxDepth)
+//	return maxDepth
+//}
+//
+//func findMaxDepth(root *TreeNode, depth int, maxDepth *int) {
+//
+//	if root == nil {
+//		return
+//	}
+//	if root.Left == nil && root.Right == nil {
+//		*maxDepth = int(math.Max(float64(*maxDepth), float64(depth)))
+//	}
+//
+//	findMaxDepth(root.Left, depth + 1, maxDepth)
+//	findMaxDepth(root.Right, depth + 1, maxDepth)
+//}
+
+//maxDepth for bottom-up
+func maxDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	return findMaxDepth(root)
+}
+
+func findMaxDepth(root *TreeNode) int{
+
+	if root == nil {
+		return 0
+	}
+	left := findMaxDepth(root.Left)
+	right := findMaxDepth(root.Right)
+	return int(math.Max(float64(left), float64(right))) + 1
+}
+
 func main() {
 	left := TreeNode{Val: 3}
 	right := TreeNode{Val: 2, Left: &left}
@@ -96,7 +138,6 @@ func main() {
 	fmt.Println(inorderTraversal(&root))
 	fmt.Println(postorderTraversal(&root))
 
-	//[3,9,20,null,null,15,7]
 	A := TreeNode{Val: 5}
 	B := TreeNode{Val: 4}
 	C := TreeNode{Val: 3}
@@ -107,6 +148,12 @@ func main() {
 
 	F := TreeNode{Val: 2}
 	G := TreeNode{Val: 1, Left: &F}
-
 	fmt.Println(levelOrder(&G))
+
+	a := TreeNode{Val: 7}
+	b := TreeNode{Val: 15}
+	c := TreeNode{Val: 20, Left: &b, Right: &a}
+	d := TreeNode{Val: 9}
+	e := TreeNode{Val: 3, Left: &d, Right: &c}
+	fmt.Println(maxDepth(&e))
 }
