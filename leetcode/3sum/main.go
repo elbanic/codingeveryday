@@ -24,32 +24,61 @@ import (
 	"sort"
 )
 
-//Hash table
+//No sort
 func threeSum(nums []int) [][]int {
-	sort.Ints(nums)
-	var ret [][]int
-	for i:=0; i<len(nums) && nums[i]<=0; i++ {
-		if i == 0 || nums[i-1] != nums[i] {
-			ret = twoSum(nums, i, ret)
+	triplets := make(map[[3]int]bool)
+	dups := make(map[int]bool)
+	complements := make(map[int]int)
+
+	for i:=0; i<len(nums); i++ {
+		if _, ok := dups[nums[i]]; !ok {
+			for j:=i+1; j<len(nums); j++ {
+				comp := 0 - (nums[i] + nums[j])
+				if v, ok := complements[comp]; ok && v == i {
+					tri := []int{nums[i], nums[j], comp}
+					sort.Ints(tri)
+					triplets[[3]int{tri[0], tri[1], tri[2]}] = true
+				}
+				complements[nums[j]] = i
+			}
+			dups[nums[i]] = true
 		}
+	}
+
+	var ret [][]int
+	for k, _ := range triplets {
+		temp := []int{k[0], k[1], k[2]}
+		ret = append(ret, temp)
 	}
 	return ret
 }
 
-func twoSum(nums []int, i int, ret [][]int) [][]int{
-	m := make(map[int]bool)
-	for j := i+1; j<len(nums); j++ {
-		complement := 0 - (nums[i]+nums[j])
-		if _,ok := m[complement]; ok {
-			ret = append(ret, []int{nums[i], nums[j], complement})
-			for j+1 < len(nums) && nums[j] == nums[j+1] {
-				j++
-			}
-		}
-		m[nums[j]] = true
-	}
-	return ret
-}
+//Hash table
+//func threeSum(nums []int) [][]int {
+//	sort.Ints(nums)
+//	var ret [][]int
+//	for i:=0; i<len(nums) && nums[i]<=0; i++ {
+//		if i == 0 || nums[i-1] != nums[i] {
+//			ret = twoSum(nums, i, ret)
+//		}
+//	}
+//	return ret
+//}
+//
+//func twoSum(nums []int, i int, ret [][]int) [][]int{
+//	m := make(map[int]bool)
+//	for j := i+1; j<len(nums); j++ {
+//		complement := 0 - (nums[i]+nums[j])
+//		if _,ok := m[complement]; ok {
+//			ret = append(ret, []int{nums[i], nums[j], complement})
+//			for j+1 < len(nums) && nums[j] == nums[j+1] {
+//				j++
+//			}
+//		}
+//		m[nums[j]] = true
+//	}
+//	return ret
+//}
 
 //Two Pointers
 //func threeSum(nums []int) [][]int {
