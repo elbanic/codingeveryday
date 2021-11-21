@@ -1,3 +1,20 @@
+/*
+https://leetcode.com/problems/n-queens/
+The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.
+Given an integer n, return all distinct solutions to the n-queens puzzle. You may return the answer in any order.
+Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate
+a queen and an empty space, respectively.
+
+Example 1:
+	Input: n = 4
+	Output: [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+	Explanation: There exist two distinct solutions to the 4-queens puzzle as shown above
+
+Example 2:
+	Input: n = 1
+	Output: [["Q"]]
+ */
+
 package main
 
 import (
@@ -7,7 +24,7 @@ import (
 func solveNQueens(n int) [][]string {
 	board := newBoard(n)
 	var boards [][][]int
-	boards = backTracking(0, board, boards)
+	boards = findPath(0, board, boards)
 
 	var ret [][]string
 	for _,v := range boards {
@@ -16,7 +33,7 @@ func solveNQueens(n int) [][]string {
 	return ret
 }
 
-func backTracking(depth int, board [][]int, output [][][]int) [][][]int{
+func findPath(depth int, board [][]int, output [][][]int) [][][]int{
 	n := len(board)
 	if depth == n {
 		output = append(output, board)
@@ -26,7 +43,7 @@ func backTracking(depth int, board [][]int, output [][][]int) [][][]int{
 		if board[depth][y] == 1 {
 			cpBoard := copyBoard(board)
 			cpBoard = marker(depth, y, cpBoard)
-			output = backTracking(depth + 1, cpBoard, output)
+			output = findPath(depth + 1, cpBoard, output)
 		}
 	}
 	return output
