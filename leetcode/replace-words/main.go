@@ -38,7 +38,7 @@ func (T *Trie) InsertIfNotExist(word string) {
 			cur.children[strconv.Itoa(int(c))] = &TrieNode{children: make(map[string]*TrieNode)}
 		}
 		cur = cur.children[strconv.Itoa(int(c))]
-		//insert if not exist
+		//not insert if exist
 		if cur.isWord == true {
 			return
 		}
