@@ -62,30 +62,38 @@ func minimumDeletions(nums []int) int {
 
 	maxId := heap.Pop(maxh).(valueId).id
 	minId := heap.Pop(minh).(valueId).id
-
 	if maxId == minId {
 		return 1
 	}
 
-	var leftDelId, rightDelId int
-	if maxId >= len(nums)/2 {
-		rightDelId = len(nums) - maxId
-	} else {
-		leftDelId = maxId
+	leftDelId := int(math.Min(float64(maxId), float64(minId)))
+	rightDelId := int(math.Max(float64(maxId), float64(minId)))
+	if leftDelId >= len(nums)/2 {
+		return len(nums) - leftDelId
+	} else if rightDelId <= len(nums)/2 {
+		return rightDelId + 1
 	}
 
-	if minId >= len(nums)/2 {
-		rightDelId = int(math.Max(float64(rightDelId), float64(len(nums) - minId)))
+	leftGap := leftDelId + 1
+	rightGap := len(nums) - rightDelId
+	if leftGap < rightGap {
+		if rightDelId - leftDelId < rightGap {
+			return rightDelId + 1
+		} else {
+			return rightGap + leftGap
+		}
 	} else {
-		leftDelId = int(math.Max(float64(leftDelId), float64(minId)))
+		if -(leftDelId - rightDelId) < leftGap {
+			return len(nums) - leftDelId
+		} else {
+			return rightGap + leftGap
+		}
 	}
-
-	return rightDelId + (leftDelId + 1)
 }
 
 func main() {
 
-	nums := []int{101}
+	nums := []int{41,-47,-26,57,82,-23,47,52,42,79,2,77,0,-4,1,-99,-57,72,-95}
 	fmt.Println(minimumDeletions(nums))
 
 }
