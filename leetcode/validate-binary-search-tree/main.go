@@ -28,16 +28,38 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
+var prev *int
+
 func isValidBST(root *TreeNode) bool {
-	return helperValidBST(nil, nil, root)
+	prev = nil
+	return helperValidInorderBST(root)
 }
 
+//Recursive Inorder Traversal
+func helperValidInorderBST(root *TreeNode) bool {
+	if root == nil {
+		return true
+	}
+	if !helperValidInorderBST(root.Left) {
+		return false
+	}
+	if prev != nil && root.Val <= *prev {
+		return false
+	}
+	if prev == nil {
+		prev = new(int)
+	}
+	*prev = root.Val
+	return helperValidInorderBST(root.Right)
+}
+
+//Recursive Traversal with Valid Range
 func helperValidBST(left, right *int, node *TreeNode) bool {
 	if node == nil {
 		return true
 	}
 	if left != nil && node.Val <= *left ||
-		right != nil && node.Val >= *right{
+		right != nil && node.Val >= *right {
 		return false
 	}
 	leftStatus := helperValidBST(left, &node.Val, node.Left)
@@ -46,8 +68,7 @@ func helperValidBST(left, right *int, node *TreeNode) bool {
 }
 
 func main() {
-	a := &TreeNode{Val: 2}
-	b := &TreeNode{Val: 2}
-	c := &TreeNode{Val: 2, Left: b, Right: a}
+	b := &TreeNode{Val: 1}
+	c := &TreeNode{Val: 1, Left: b, Right: nil}
 	fmt.Println(isValidBST(c))
 }
