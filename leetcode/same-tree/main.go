@@ -25,20 +25,60 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
+//recursion
 func isSameTree(p *TreeNode, q *TreeNode) bool {
-	var ret bool
-	if (p != nil && q == nil) || (p == nil && q != nil){
-		return false
-	}
 	if p == nil && q == nil {
 		return true
 	}
-	if p != nil && q != nil {
-		ret = p.Val == q.Val
+	if p == nil || q == nil{
+		return false
+	}
+	if p.Val != q.Val {
+		return false
 	}
 	left := isSameTree(p.Left, q.Left)
 	right := isSameTree(p.Right, q.Right)
-	return ret && left && right
+	return left && right
+}
+
+//iteration
+func isSameTreeIteration(p *TreeNode, q *TreeNode) bool {
+	if p == nil && q == nil {
+		return true
+	}
+	if p == nil || q == nil {
+		return false
+	}
+	queueP := []*TreeNode{p}
+	queueQ := []*TreeNode{q}
+
+	for len(queueP) > 0 {
+		p = queueP[len(queueP)-1]
+		q = queueQ[len(queueQ)-1]
+
+		queueP = queueP[0:len(queueP)-1]
+		queueQ = queueQ[0:len(queueQ)-1]
+
+		if p.Val != q.Val {
+			return false
+		}
+		if (p.Left != nil && q.Left == nil) || (p.Left == nil && q.Left != nil){
+			return false
+		}
+		if p.Left != nil && q.Left != nil{
+			queueP = append(queueP, p.Left)
+			queueQ = append(queueQ, q.Left)
+		}
+		if (p.Right != nil && q.Right == nil) || (p.Right == nil && q.Right != nil){
+			return false
+		}
+		if p.Right != nil && q.Right != nil{
+			queueP = append(queueP, p.Right)
+			queueQ = append(queueQ, q.Right)
+		}
+	}
+
+	return true
 }
 
 func main() {
@@ -50,6 +90,9 @@ func main() {
 	a2 := &TreeNode{Val: 1}
 	b2 := &TreeNode{Val: 2}
 	c2 := &TreeNode{Val: 3, Left: b2, Right: a2}
+    fmt.Println(isSameTreeIteration(c1, c2))
 
-    fmt.Println(isSameTree(c1, c2))
+	d1 := &TreeNode{}
+	d2 := &TreeNode{}
+	fmt.Println(isSameTreeIteration(d1, d2))
 }
