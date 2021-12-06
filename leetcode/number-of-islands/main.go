@@ -58,9 +58,7 @@ func dfs(grid [][]byte, r int, c int) {
 	}
 
 	grid[r][c] = '0'
-	dfs(grid, r-1, c)
 	dfs(grid, r+1, c)
-	dfs(grid, r, c-1)
 	dfs(grid, r, c+1)
 }
 
@@ -125,7 +123,7 @@ func main() {
 	}
 	grid3 := [][]byte{{'1', '0', '1', '1', '0', '1', '1'}}
 
-	fmt.Println(numIslandsBFS(grid))
-	fmt.Println(numIslandsBFS(grid2))
-	fmt.Println(numIslandsBFS(grid3))
+	fmt.Println(numIslands(grid))
+	fmt.Println(numIslands(grid2))
+	fmt.Println(numIslands(grid3))
 }
