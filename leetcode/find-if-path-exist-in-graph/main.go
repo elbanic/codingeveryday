@@ -80,6 +80,12 @@ func traverseVertices(edges [][]int) {
 //disjoint set
 func validPathDS(n int, edges [][]int, start int, end int) bool {
 
+	for _,v := range edges {
+		if (v[0]==start && v[1]==end) || (v[0]==end && v[1]==start){
+			return true
+		}
+	}
+
 	graph := make([]int, n)
 	for i := range graph {
 		graph[i] = i
