@@ -16,7 +16,6 @@ Example 2:
 Example 3:
 	Input: nums = [5,4,-1,7,8]
 	Output: 23
-
  */
 
 package main
@@ -25,11 +24,6 @@ import (
 	"fmt"
 	"math"
 )
-
-type coord struct {
-	i int
-	j int
-}
 
 func maxSubArray(nums []int) int {
 
@@ -42,17 +36,6 @@ func maxSubArray(nums []int) int {
 		maxSub = int(math.Max(float64(maxSub), float64(currentSub)))
 	}
 	return maxSub
-}
-
-func sum(nums []int) int {
-	var ret int
-	if len(nums)==0 {
-		return 0
-	}
-	for _,v := range nums {
-		ret += v
-	}
-	return ret
 }
 
 func main() {
