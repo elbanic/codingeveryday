@@ -34,7 +34,6 @@ import "fmt"
 func allPathsSourceTarget(graph [][]int) [][]int {
 
 	_, output := findNode(graph, []int{0}, []int{}, [][]int{})
-
 	return output
 }
 
@@ -60,8 +59,47 @@ func findNode(graph [][]int, stack []int, path []int, output [][]int) ([]int, []
 	return stack, output
 }
 
+//dynamic programming
+var target int
+var memo map[int][][]int
+var Graph [][]int
+func allPathsToTarget(currNode int) [][]int{
+	if v, ok := memo[currNode]; ok {
+		return v
+	}
+
+	var res [][]int
+	if currNode == target {
+		var path []int
+		path = append(path, target)
+		res = append(res, path)
+		return res
+	}
+
+	for _, nextNode := range Graph[currNode] {
+		for _, paths := range allPathsToTarget(nextNode) {
+			var newPath []int
+			newPath = append(newPath, currNode)
+			for _, path := range paths {
+				newPath = append(newPath, path)
+			}
+			res = append(res, newPath)
+		}
+	}
+	memo[currNode] = res
+	return res
+}
+
+func allPathsSourceTargetDP(graph [][]int) [][]int {
+	target = len(graph) - 1
+	memo = make(map[int][][]int)
+	Graph = graph
+	return allPathsToTarget(0)
+}
+
+
 func main() {
 
 	graph := [][]int{{3,1},{4,6,7,2,5},{4,6,3},{6,4},{7,6,5},{6},{7},{}}
-	fmt.Println(allPathsSourceTarget(graph))
+	fmt.Println(allPathsSourceTargetDP(graph))
 }
