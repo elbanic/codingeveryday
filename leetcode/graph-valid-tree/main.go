@@ -1,41 +1,63 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
-//dfs를 하고 visited를 방문하려는 순간 valid가 아님
+//union find
+type UnionFind struct {
+	parent []int
+}
+
+func NewUnionFind(n int) *UnionFind {
+	uf := UnionFind{make([]int, n)}
+	uf.makeset()
+	return &uf
+}
+
+func (uf *UnionFind) makeset() {
+	for i := range uf.parent {
+		uf.parent[i] = i
+	}
+}
+
+func (uf UnionFind) find(A int) int {
+	for uf.parent[A] != A {
+		A = uf.parent[A]
+	}
+	return A
+}
+
+func (uf *UnionFind) union(A, B int) bool {
+
+	rootA := uf.find(A)
+	rootB := uf.find(B)
+
+	if rootA == rootB {
+		return false
+	}
+	uf.parent[rootB] = rootA
+	return true
+}
+
 func validTree(n int, edges [][]int) bool {
 
-	parent := make(map[int]int)
-	root := make([]int, n)
-	for i := range root {
-		root[i] = i
+	if len(edges) != n-1 {
+		return false
 	}
+
+	var uf *UnionFind
+	uf = NewUnionFind(n)
+
 	for _, v := range edges {
-		if _, ok := parent[v[1]]; ok {
-			return false
-		}
+		A := v[0]
+		B := v[1]
 
-		parent[v[1]] = v[0]
-		union(root, v[0], v[1])
-	}
-
-	cur := root[0]
-	for _, v := range root {
-		if cur != v {
+		if !uf.union(A, B) {
 			return false
 		}
 	}
 	return true
-}
-
-func union(graph []int, x, y int) {
-	rootX := graph[x]
-	rootY := graph[y]
-	for i, v := range graph {
-		if v == rootY {
-			graph[i] = rootX
-		}
-	}
 }
 
 func main() {
@@ -43,9 +65,6 @@ func main() {
 	n, edges := 5, [][]int{{0, 1}, {0, 2}, {0, 3}, {1, 4}}
 	fmt.Println(validTree(n, edges))
 
-	n2, edges2 := 5, [][]int{{0, 1}, {1, 2}, {2, 3}, {1, 3}, {1, 4}}
+	n2, edges2 := 5, [][]int{{0, 1}, {1, 2}, {2, 3}, {1, 3}}
 	fmt.Println(validTree(n2, edges2))
-
-	n3, edges3 := 2, [][]int{{1, 0}, {2, 0}}
-	fmt.Println(validTree(n3, edges3))
 }
