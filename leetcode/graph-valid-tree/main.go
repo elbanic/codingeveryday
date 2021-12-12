@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+//dfs를 하고 visited를 방문하려는 순간 valid가 아님
 func validTree(n int, edges [][]int) bool {
 
 	parent := make(map[int]int)
@@ -19,7 +20,7 @@ func validTree(n int, edges [][]int) bool {
 	}
 
 	cur := root[0]
-	for _,v := range root{
+	for _, v := range root {
 		if cur != v {
 			return false
 		}
@@ -30,7 +31,7 @@ func validTree(n int, edges [][]int) bool {
 func union(graph []int, x, y int) {
 	rootX := graph[x]
 	rootY := graph[y]
-	for i,v := range graph {
+	for i, v := range graph {
 		if v == rootY {
 			graph[i] = rootX
 		}
