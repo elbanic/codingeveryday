@@ -31,8 +31,6 @@ import (
 	"fmt"
 )
 
-const INF = 2147483647
-
 type loc struct {
 	i int
 	j int

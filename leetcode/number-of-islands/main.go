@@ -1,6 +1,6 @@
 /*
 https://leetcode.com/problems/number-of-islands/
-Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water),
+Given an m x n 2D binary grid which represents a map of '1's (land) and '0's (water),
 return the number of islands.
 An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.
 You may assume all four edges of the grid are all surrounded by water.
@@ -22,7 +22,7 @@ Example 2:
 	  ["0","0","0","1","1"]
 	]
 	Output: 3
- */
+*/
 
 package main
 
@@ -58,7 +58,9 @@ func dfs(grid [][]byte, r int, c int) {
 	}
 
 	grid[r][c] = '0'
+	dfs(grid, r-1, c)
 	dfs(grid, r+1, c)
+	dfs(grid, r, c-1)
 	dfs(grid, r, c+1)
 }
 
@@ -73,31 +75,31 @@ func numIslandsBFS(grid [][]byte) int {
 	var ret int
 
 	for r := 0; r < nr; r++ {
-		for c:=0; c < nc; c++ {
+		for c := 0; c < nc; c++ {
 			if grid[r][c] == '1' {
-				ret ++
+				ret++
 				grid[r][c] = '0'
 				var neighbors []int
-				neighbors = append(neighbors, r * nc + c)
+				neighbors = append(neighbors, r*nc+c)
 				for len(neighbors) > 0 {
 					id := neighbors[len(neighbors)-1]
 					neighbors = neighbors[:len(neighbors)-1]
 					row := id / nc
 					col := id % nc
-					if row - 1 >= 0 && grid[row-1][col] == '1' {
-						neighbors = append(neighbors, (row-1) * nc + col)
+					if row-1 >= 0 && grid[row-1][col] == '1' {
+						neighbors = append(neighbors, (row-1)*nc+col)
 						grid[row-1][col] = '0'
 					}
-					if row + 1 < nr && grid[row+1][col] == '1' {
-						neighbors = append(neighbors, (row+1) * nc + col)
+					if row+1 < nr && grid[row+1][col] == '1' {
+						neighbors = append(neighbors, (row+1)*nc+col)
 						grid[row+1][col] = '0'
 					}
-					if col - 1 >= 0 && grid[row][col-1] == '1' {
-						neighbors = append(neighbors, row * nc + col-1)
+					if col-1 >= 0 && grid[row][col-1] == '1' {
+						neighbors = append(neighbors, row*nc+col-1)
 						grid[row][col-1] = '0'
 					}
-					if col + 1 < nc && grid[row][col+1] == '1' {
-						neighbors = append(neighbors, row * nc + col+1)
+					if col+1 < nc && grid[row][col+1] == '1' {
+						neighbors = append(neighbors, row*nc+col+1)
 						grid[row][col+1] = '0'
 					}
 				}
