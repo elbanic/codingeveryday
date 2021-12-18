@@ -16,6 +16,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"time"
 )
 
@@ -135,6 +136,50 @@ func updateMatrix2(mat [][]int) [][]int {
 	return dist
 }
 
+//dp
+func updateMatrix3(mat [][]int) [][]int {
+	rows := len(mat)
+	if rows == 0 {
+		return mat
+	}
+	cols := len(mat[0])
+	dist := make([][]int, rows)
+	for i := range dist {
+		col := make([]int, cols)
+		for j := range col {
+			col[j] = MaxInt - 10000
+		}
+		dist[i] = col
+	}
+
+	for i := 0; i < rows; i++ {
+		for j := 0; j < cols; j++ {
+			if mat[i][j] == 0 {
+				dist[i][j] = 0
+			} else {
+				if i > 0 {
+					dist[i][j] = int(math.Min(float64(dist[i][j]), float64(dist[i-1][j]+1)))
+				}
+				if j > 0 {
+					dist[i][j] = int(math.Min(float64(dist[i][j]), float64(dist[i][j-1]+1)))
+				}
+			}
+		}
+	}
+
+	for i := rows - 1; i >= 0; i-- {
+		for j := cols - 1; j >= 0; j-- {
+			if i < rows-1 {
+				dist[i][j] = int(math.Min(float64(dist[i][j]), float64(dist[i+1][j]+1)))
+			}
+			if j < cols-1 {
+				dist[i][j] = int(math.Min(float64(dist[i][j]), float64(dist[i][j+1]+1)))
+			}
+		}
+	}
+	return dist
+}
+
 func main() {
 	mat := [][]int{{0}, {1}}
 	fmt.Println(updateMatrix(mat))
@@ -151,6 +196,12 @@ func main() {
 	updateMatrix2(mat4)
 	t := time.Now()
 	elapsed := t.Sub(start)
+	fmt.Println(elapsed)
+
+	start = time.Now()
+	fmt.Println(updateMatrix3(mat3))
+	t = time.Now()
+	elapsed = t.Sub(start)
 	fmt.Println(elapsed)
 
 	start = time.Now()
