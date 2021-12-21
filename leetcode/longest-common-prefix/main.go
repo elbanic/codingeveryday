@@ -8,7 +8,6 @@ import (
 func longestCommonPrefix(strs []string) string {
 
 	var prefix []string
-
 	for _, v := range strs[0] {
 		prefix = append(prefix, string(v))
 	}
