@@ -83,8 +83,35 @@ func createBTree(nums []int) *TreeNode {
 	return &root
 }
 
+// keep Min Max of the line
+var max = 0
+
+func maxAncestorDiff2(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	max = 0
+	helper(root, root.Val, root.Val)
+	return max
+}
+
+func helper(node *TreeNode, curMax, curMin int) {
+	if node == nil {
+		return
+	}
+	possible := math.Max(math.Abs(float64(curMax-node.Val)), math.Abs(float64(curMin-node.Val)))
+	max = int(math.Max(float64(max), possible))
+
+	curMax = int(math.Max(float64(curMax), float64(node.Val)))
+	curMin = int(math.Min(float64(curMin), float64(node.Val)))
+	helper(node.Left, curMax, curMin)
+	helper(node.Right, curMax, curMin)
+}
+
+//
+
 func main() {
 	root := []int{8, 3, 10, 1, 6, -1, 14, -1, -1, 4, 7, 13}
 	tree := createBTree(root)
-	fmt.Println(maxAncestorDiff(tree))
+	fmt.Println(maxAncestorDiff2(tree))
 }
