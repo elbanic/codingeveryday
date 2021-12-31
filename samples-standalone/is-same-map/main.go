@@ -7,7 +7,6 @@ func isSameMap(a map[string]interface{}, b map[string]interface{}) bool {
 	if len(a) != len(b) {
 		return false
 	}
-
 	var ret bool
 	for key, value := range a {
 		switch value.(type) {
