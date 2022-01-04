@@ -77,7 +77,7 @@ func findJudge(n int, trust [][]int) int {
 
 	return couldJudge
 }
-g
+
 func main() {
 	n := 3
 	trust := [][]int{{1, 2}, {2, 3}}
