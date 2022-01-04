@@ -38,7 +38,7 @@ func toInt(n []int) int {
 
 func main() {
 	fmt.Println(bitwiseComplement(1024))
-	fmt.Println(bitwiseComplement2(7))
+	fmt.Println(bitwiseComplement(7))
 	fmt.Println(bitwiseComplement(10))
 	fmt.Println(bitwiseComplement(5))
 }
