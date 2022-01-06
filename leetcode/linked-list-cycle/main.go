@@ -21,6 +21,23 @@ func hasCycle(head *ListNode) bool {
 	return false
 }
 
+//Floyd's Cycle Finding Algorithm (space comp = O(1))
+func hasCycle2(head *ListNode) bool {
+	if head == nil {
+		return false
+	}
+	slow := head
+	fast := head.Next
+	for slow != fast {
+		if fast == nil || fast.Next == nil {
+			return false
+		}
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+	return true
+}
+
 func createLinkedList(nums []int, pos int) *ListNode {
 	head := &ListNode{}
 	cur := head
@@ -41,6 +58,6 @@ func createLinkedList(nums []int, pos int) *ListNode {
 }
 
 func main() {
-	head := createLinkedList([]int{3, 2, 0, -4}, 1)
-	fmt.Println(hasCycle(head))
+	head := createLinkedList([]int{1}, -1)
+	fmt.Println(hasCycle2(head))
 }
