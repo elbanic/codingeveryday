@@ -17,7 +17,7 @@ Example 2:
 	1. 1 step + 1 step + 1 step
 	2. 1 step + 2 steps
 	3. 2 steps + 1 step
- */
+*/
 
 package main
 
@@ -58,34 +58,21 @@ func climbingCases(i, n int, m map[int]int) int {
 	return m[i]
 }
 
-//cases
-//func climbStairs(n int) int {
-//	output := climbingCases(1, n, []int{}, [][]int{})
-//	for _,v := range climbingCases(2, n, []int{}, [][]int{}) {
-//		output = append(output, v)
-//	}
-//	return len(output)
-//}
-//
-//func climbingCases(x, n int, path []int, output [][]int) [][]int {
-//
-//	path = append(path, x)
-//	if n - x == 0{
-//		output = append(output, path)
-//		return output
-//	} else if n - x < 0 {
-//		return output
-//	}
-//	n -= x
-//	if n == 1 {
-//		output = climbingCases(1, n, path, output)
-//	} else {
-//		output = climbingCases(1, n, path, output)
-//		output = climbingCases(2, n, path, output)
-//	}
-//	return output
-//}
+//tabulation
+func climbStairs2(n int) int {
+	if n == 0 || n == 1 {
+		return 1
+	}
+	dp := make([]int, n+1)
+
+	dp[0], dp[1] = 1, 1
+
+	for i := 2; i < n+1; i++ {
+		dp[i] = dp[i-1] + dp[i-2]
+	}
+	return dp[n]
+}
 
 func main() {
-	fmt.Println(climbStairs(35))
+	fmt.Println(climbStairs2(35))
 }
