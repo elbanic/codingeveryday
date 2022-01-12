@@ -43,30 +43,26 @@ func insertIntoBST2(root *TreeNode, val int) *TreeNode {
 
 //iteration
 func insertIntoBST(root *TreeNode, val int) *TreeNode {
-	if root == nil {
-		root = &TreeNode{val, nil, nil}
-		return root
-	}
 
 	cur := root
 	for cur != nil {
 		if cur.Val < val {
 			if cur.Right == nil {
 				cur.Right = &TreeNode{val, nil, nil}
-				break
+				return root
 			} else {
 				cur = cur.Right
 			}
 		} else {
 			if cur.Left == nil {
 				cur.Left = &TreeNode{val, nil, nil}
-				break
+				return root
 			} else {
 				cur = cur.Left
 			}
 		}
 	}
-	return root
+	return &TreeNode{val, nil, nil}
 }
 
 func createBinarySearchTree(nums []int) *TreeNode {
