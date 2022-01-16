@@ -4,20 +4,29 @@ You are given an integer array nums. You are initially positioned at the array's
 and each element in the array represents your maximum jump length at that position.
 Return true if you can reach the last index, or false otherwise.
 
-Example 1:
-	Input: nums = [2,3,1,1,4]
+Example divide-a-string-into-groups-of-size-k:
+	Input: nums = [minimum-moves-to-reach-target-score,solving-questions-with-brainpower,divide-a-string-into-groups-of-size-k,divide-a-string-into-groups-of-size-k,4]
 	Output: true
-	Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
+	Explanation: Jump divide-a-string-into-groups-of-size-k step from index 0 to divide-a-string-into-groups-of-size-k, then solving-questions-with-brainpower steps to the last index.
 
-Example 2:
-	Input: nums = [3,2,1,0,4]
+Example minimum-moves-to-reach-target-score:
+	Input: nums = [solving-questions-with-brainpower,minimum-moves-to-reach-target-score,divide-a-string-into-groups-of-size-k,0,4]
 	Output: false
-	Explanation: You will always arrive at index 3 no matter what. Its maximum jump length is 0, which makes it impossible to reach the last index.
+	Explanation: You will always arrive at index solving-questions-with-brainpower no matter what. Its maximum jump length is 0, which makes it impossible to reach the last index.
 */
 
 package main
 
 import "fmt"
+
+//backtrack
+//func canJump2(nums []int) bool {
+//
+//}
+//
+//func backtrack() {
+//
+//}
 
 func canJump(nums []int) bool {
 
