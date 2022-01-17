@@ -31,6 +31,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"sort"
 )
 
@@ -85,10 +86,72 @@ func maxDistToClosest(seats []int) int {
 	return retArr[len(retArr)-1]
 }
 
+//Next Array
+func maxDistToClosest2(seats []int) int {
+	n := len(seats)
+	left, right := make([]int, n), make([]int, n)
+	for i := range left {
+		left[i] = n
+		right[i] = n
+	}
+
+	for i := 0; i < n; i++ {
+		if seats[i] == 1 {
+			left[i] = 0
+		} else if i > 0 {
+			left[i] = left[i-1] + 1
+		}
+	}
+
+	for i := n - 1; i >= 0; i-- {
+		if seats[i] == 1 {
+			right[i] = 0
+		} else if i < n-1 {
+			right[i] = right[i+1] + 1
+		}
+	}
+
+	var ans int
+	for i := 0; i < n; i++ {
+		if seats[i] == 0 {
+			ans = int(math.Max(float64(ans), math.Min(float64(left[i]), float64(right[i]))))
+		}
+	}
+	return ans
+}
+
+//Two Pointer
+func maxDistToClosest3(seats []int) int {
+	n := len(seats)
+	prev, future := -1, 0
+	var ans int
+
+	for i := 0; i < n; i++ {
+		if seats[i] == 1 {
+			prev = i
+		} else {
+			for future < n && seats[future] == 0 || future < i {
+				future++
+			}
+
+			left := n
+			if prev != -1 {
+				left = i - prev
+			}
+			right := n
+			if future != n {
+				right = future - i
+			}
+			ans = int(math.Max(float64(ans), math.Min(float64(left), float64(right))))
+		}
+	}
+	return ans
+}
+
 func main() {
 	seats := []int{1, 0, 0, 0}
-	fmt.Println(maxDistToClosest(seats))
+	fmt.Println(maxDistToClosest3(seats))
 
 	seats2 := []int{0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0}
-	fmt.Println(maxDistToClosest(seats2))
+	fmt.Println(maxDistToClosest3(seats2))
 }
