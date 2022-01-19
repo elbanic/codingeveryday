@@ -17,16 +17,85 @@ Example minimum-moves-to-reach-target-score:
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
+
+type GOODBAD int
+
+const (
+	Good GOODBAD = iota
+	Bad
+	Unknown
+)
+
+//dp bottom up
+func canJumpBottomUp(nums []int) bool {
+	mem := make([]GOODBAD, len(nums))
+	for i := 0; i < len(mem); i++ {
+		mem[i] = Unknown
+	}
+	mem[len(mem)-1] = Good
+
+	for i := len(nums) - 2; i >= 0; i-- {
+		furthestJump := int(math.Min(float64(i+nums[i]), float64(len(nums)-1)))
+		for j := i + 1; j <= furthestJump; j++ {
+			if mem[j] == Good {
+				mem[i] = Good
+				break
+			}
+		}
+	}
+	return mem[0] == Good
+}
+
+//memo
+var memo []GOODBAD
+
+func canJumpMemo(nums []int) bool {
+	memo = make([]GOODBAD, len(nums))
+	for i := 0; i < len(memo); i++ {
+		memo[i] = Unknown
+	}
+	memo[len(memo)-1] = Good
+	return canJumpFromPosition(0, nums)
+}
+
+func canJumpFromPosition(position int, nums []int) bool {
+	if memo[position] != Unknown {
+		return memo[position] == Good
+	}
+
+	furthestJump := int(math.Min(float64(position+nums[position]), float64(len(nums)-1)))
+	for nextPosition := position + 1; nextPosition <= furthestJump; nextPosition++ {
+		if canJumpFromPosition(nextPosition, nums) {
+			memo[position] = Good
+			return true
+		}
+	}
+	memo[position] = Bad
+	return false
+}
 
 //backtrack
-//func canJump2(nums []int) bool {
-//
-//}
-//
-//func backtrack() {
-//
-//}
+func canJumpBackTrack(nums []int) bool {
+	return backtrack(0, nums)
+}
+
+func backtrack(position int, nums []int) bool {
+	if position == len(nums)-1 {
+		return true
+	}
+
+	furthestJump := int(math.Min(float64(position+nums[position]), float64(len(nums)-1)))
+	for i := position + 1; i <= furthestJump; i++ {
+		if backtrack(i, nums) {
+			return true
+		}
+	}
+	return false
+}
 
 func canJump(nums []int) bool {
 
@@ -54,8 +123,8 @@ func canJump(nums []int) bool {
 
 func main() {
 	nums := []int{2, 3, 1, 1, 4}
-	fmt.Println(canJump(nums))
+	fmt.Println(canJumpMemo(nums))
 
-	nums2 := []int{3, 2, 1, 0, 4}
+	nums2 := []int{1, 5, 2, 1, 0, 2, 0}
 	fmt.Println(canJump(nums2))
 }
