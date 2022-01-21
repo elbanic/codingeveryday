@@ -5,6 +5,65 @@ import (
 	"sort"
 )
 
+//DFS
+var (
+	visited  map[string]bool
+	adjacent map[string][]string
+)
+
+func accountsMergeDFS(accounts [][]string) [][]string {
+	visited = make(map[string]bool)
+	adjacent = make(map[string][]string)
+
+	for _, account := range accounts {
+		accountSize := len(account)
+		firstEmail := account[1]
+
+		for j := 2; j < accountSize; j++ {
+			email := account[j]
+			if _, ok := adjacent[firstEmail]; !ok {
+				adjacent[firstEmail] = []string{}
+			}
+			adjacent[firstEmail] = append(adjacent[firstEmail], email)
+
+			if _, ok := adjacent[email]; !ok {
+				adjacent[email] = []string{}
+			}
+			adjacent[email] = append(adjacent[email], firstEmail)
+		}
+	}
+
+	var mergedAccounts [][]string
+	for _, account := range accounts {
+		name := account[0]
+		firstEmail := account[1]
+
+		if !visited[firstEmail] {
+			var mergedAccount []string
+			mergedAccount = append(mergedAccount, name)
+			mergedAccount = dfs(mergedAccount, firstEmail)
+			sort.Strings(mergedAccount[1:])
+			mergedAccounts = append(mergedAccounts, mergedAccount)
+		}
+	}
+	return mergedAccounts
+}
+
+func dfs(mergedAccount []string, email string) []string {
+	visited[email] = true
+	mergedAccount = append(mergedAccount, email)
+
+	if _, ok := adjacent[email]; !ok {
+		return mergedAccount
+	}
+	for _, neighbor := range adjacent[email] {
+		if !visited[neighbor] {
+			mergedAccount = dfs(mergedAccount, neighbor)
+		}
+	}
+	return mergedAccount
+}
+
 //disjoint set
 type Disjoint struct {
 	representative []int
@@ -154,5 +213,5 @@ func deduplicate(s []string) []string {
 
 func main() {
 	accounts := [][]string{{"John", "johnsmith@mail.com", "john_newyork@mail.com"}, {"John", "johnsmith@mail.com", "john00@mail.com"}, {"Mary", "mary@mail.com"}, {"John", "johnnybravo@mail.com"}}
-	fmt.Println(accountsMerge2(accounts))
+	fmt.Println(accountsMergeDFS(accounts))
 }
