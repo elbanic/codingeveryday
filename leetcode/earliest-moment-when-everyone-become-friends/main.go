@@ -21,10 +21,10 @@ func createDisjointSet(n int) DisjointSet {
 }
 
 func (ds *DisjointSet) find(i int) int {
-	if ds.parent[i] != i {
-		ds.parent[i] = ds.find(ds.parent[i])
+	if ds.parent[i] == i {
+		return ds.parent[i]
 	}
-	return ds.parent[i]
+	return ds.find(ds.parent[i])
 }
 
 func (ds *DisjointSet) union(i, j int) bool {
