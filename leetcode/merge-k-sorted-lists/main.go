@@ -44,7 +44,6 @@ func mergeKLists2(lists []*ListNode) *ListNode {
 			heap.Push(h, cur)
 			cur = cur.Next
 		}
-
 	}
 
 	head := &ListNode{}
