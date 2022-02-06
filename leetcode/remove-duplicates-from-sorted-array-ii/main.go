@@ -5,7 +5,7 @@ import "fmt"
 func removeDuplicates(nums []int) int {
 
 	if len(nums) < 2 {
-		return 0
+		return len(nums)
 	}
 
 	var k int
