@@ -1,38 +1,94 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
+
+type keyCount struct {
+	key       int
+	occurence int
+}
 
 func minimumOperations(nums []int) int {
 
-	m := make(map[int]int)
-	var maxCount, maxZigzag int
-	for i := 0; i < len(nums)-1; i++ {
-		if _, ok := m[nums[i]]; !ok {
-			var count int
-			for j := i + 2; j < len(nums); j += 2 {
-				if nums[i] == nums[j] {
-					count++
-				}
+	even := make(map[int]int)
+	odd := make(map[int]int)
+	var maxEven, maxEvenCnt, maxOdd, maxOddCnt int
+	for i := 0; i < len(nums); i++ {
+		if i%2 == 0 {
+			even[nums[i]]++
+			if even[nums[i]] > maxEvenCnt {
+				maxEvenCnt = even[nums[i]]
+				maxEven = nums[i]
 			}
-			if count > 0 {
-				m[nums[i]] = i
-			}
-			if maxCount < count {
-				maxCount = count
-				maxZigzag = nums[i]
+		} else {
+			odd[nums[i]]++
+			if odd[nums[i]] > maxOddCnt {
+				maxOddCnt = odd[nums[i]]
+				maxOdd = nums[i]
 			}
 		}
 	}
 
-	fmt.Println(maxZigzag)
-	//left alter
+	if maxEven == maxOdd {
+		var evenArr, oddArr []keyCount
+		for k, v := range even {
+			evenArr = append(evenArr, keyCount{k, v})
+		}
+		for k, v := range odd {
+			oddArr = append(oddArr, keyCount{k, v})
+		}
+		sort.Slice(evenArr, func(i, j int) bool {
+			return evenArr[i].occurence > evenArr[j].occurence
+		})
+		sort.Slice(oddArr, func(i, j int) bool {
+			return oddArr[i].occurence > oddArr[j].occurence
+		})
 
-	//right alter
+		for maxOdd == maxEven && (len(evenArr) > 0 || len(oddArr) > 0) {
+			if len(evenArr) == 0 {
+				maxOdd = oddArr[0].key
+			} else if len(oddArr) == 0 {
+				maxEven = evenArr[0].key
+			} else {
+				if evenArr[0].occurence > oddArr[0].occurence {
+					maxEven = evenArr[0].key
+				} else {
+					maxOdd = oddArr[0].key
+				}
+				evenArr = evenArr[1:]
+				oddArr = oddArr[1:]
+			}
+		}
+	}
 
-	return 0
+	if maxEven == maxOdd {
+		maxOdd = maxEven + 1
+	}
+
+	var count int
+	for i := 0; i < len(nums); i++ {
+		if i%2 == 0 {
+			if nums[i] != maxEven {
+				count++
+			}
+		} else {
+			if nums[i] != maxOdd {
+				count++
+			}
+		}
+	}
+	return count
 }
 
 func main() {
-	nums := []int{69, 91, 47, 74, 75, 94, 22, 100, 43, 50, 82, 47, 40, 51, 90, 27, 98, 85, 47, 14, 55, 82, 52, 9, 65, 90, 86, 45, 52, 52, 95, 40, 85, 3, 46, 77, 16, 59, 32, 22, 41, 87, 89, 78, 59, 78, 34, 26, 71, 9, 82, 68, 80, 74, 100, 6, 10, 53, 84, 80, 7, 87, 3, 82, 26, 26, 14, 37, 26, 58, 96, 73, 41, 2, 79, 43, 56, 74, 30, 71, 6, 100, 72, 93, 83, 40, 28, 79, 24}
+	nums := []int{2, 2}
 	fmt.Println(minimumOperations(nums))
+
+	nums2 := []int{1, 2, 2, 2, 2}
+	fmt.Println(minimumOperations(nums2))
+
+	nums3 := []int{4, 12, 91, 17, 29, 2, 32, 49, 5, 30, 89, 21, 91, 34, 71, 22, 88, 32, 36, 64, 28, 69, 7, 100, 35, 41, 62, 91, 85, 61, 4, 79, 77, 52, 57, 97, 41, 91, 13, 34, 37, 84, 10, 10, 37, 93, 58, 35, 81, 36, 81, 6, 50, 27, 68}
+	fmt.Println(minimumOperations(nums3))
 }
