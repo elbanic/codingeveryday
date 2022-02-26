@@ -5,24 +5,26 @@ import (
 	"math"
 )
 
-const MaxInt = int(^uint(0) >> 1)
+const MaxInt = int(^uint32(0) >> 1)
+
+var cache [][]int
 
 func shortestPathLength(graph [][]int) int {
 
 	n := len(graph)
 	endingMask := (1 << n) - 1
-	cache := make([][]int, n+1)
+	cache = make([][]int, n+1)
 	for i := range cache {
 		cache[i] = make([]int, endingMask+1)
 	}
 	best := MaxInt
 	for node := 0; node < n; node++ {
-		best = int(math.Min(float64(best), float64(dp(node, endingMask, graph, cache))))
+		best = int(math.Min(float64(best), float64(dp(node, endingMask, graph))))
 	}
 	return best
 }
 
-func dp(node, mask int, graph [][]int, cache [][]int) int {
+func dp(node, mask int, graph [][]int) int {
 
 	if cache[node][mask] != 0 {
 		return cache[node][mask]
@@ -34,8 +36,8 @@ func dp(node, mask int, graph [][]int, cache [][]int) int {
 	cache[node][mask] = MaxInt - 1
 	for _, neighbor := range graph[node] {
 		if (mask & (1 << neighbor)) != 0 {
-			visited := dp(neighbor, mask, graph, cache)
-			notVisited := dp(neighbor, mask^(1<<node), graph, cache)
+			visited := dp(neighbor, mask, graph)
+			notVisited := dp(neighbor, mask^(1<<node), graph)
 			betterOption := math.Min(float64(visited), float64(notVisited))
 			cache[node][mask] = int(math.Min(float64(cache[node][mask]), 1+betterOption))
 		}
