@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-const MaxInt = int(^uint32(0) >> 1)
+const MaxInt = int(^uint32(0)>>1) - 1
 
 var cache [][]int
 
