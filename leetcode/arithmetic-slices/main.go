@@ -34,6 +34,6 @@ func helper(nums []int, output [][]int, start int, end int, diff int) [][]int {
 }
 
 func main() {
-	nums := []int{1}
+	nums := []int{1, 3, 5, 7, 8, 9}
 	fmt.Println(numberOfArithmeticSlices(nums))
 }
