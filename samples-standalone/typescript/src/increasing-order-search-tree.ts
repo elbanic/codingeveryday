@@ -1,5 +1,5 @@
 
-namespace convert_bst_to_greater_tree {
+namespace increasing_order_search_tree {
 
     class TreeNode {
         val: number
@@ -11,27 +11,35 @@ namespace convert_bst_to_greater_tree {
             this.right = (right === undefined ? null : right)
         }
     }
-
-    function convertBST(root: TreeNode | null): TreeNode | null {
-        let sum: number = 0;
-        let node: TreeNode = root;
+    
+    function increasingBST(root: TreeNode | null): TreeNode | null {
+    
+        let node = root;
         let stack: TreeNode[] = new Array();
+        let res: TreeNode[] = new Array();
+
         while (stack.length != 0 || node != null) {
             while (node != null) {
                 stack.push(node);
-                node = node.right;
+                node = node.left;
             }
-            node = stack.pop();
-            sum += node.val;
-            node.val = sum;
-    
-            node = node.left;
+            let left = stack.pop();
+            res.push(left);
+            if (left.right != null) {
+                node = left.right;
+            }
+        }
+        root = res.shift();
+        node = root;
+        while (res.length != 0) {
+            node.left = null;
+            node.right = res.shift();
+            node = node.right;
         }
         return root;
     };
-    
-    function createBST(nums: number[]): TreeNode {
-    
+
+    function createTree(nums: number[]): TreeNode {
         if (nums.length == 0 ) {
             return null;
         }
@@ -59,12 +67,11 @@ namespace convert_bst_to_greater_tree {
             }
         }
         return root;
-    };
+    }
+
+    let nums = [2,1,4,null, null,3];
     
-    
-    const nums: number[] = [4,1,6,0,2,5,7,null,null,null,3,null,null,null,8];
-    const root: TreeNode = createBST(nums);
-    
-    console.log(convertBST(root));
-    let a: number = 0;
+    let root = createTree(nums);
+
+    console.log(increasingBST(root));
 }

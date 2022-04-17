@@ -43,3 +43,6 @@ let good3: IPerson2 = { name: 'Jack', age:32, etc: true};
 
 console.log(good2);
 console.log(good3);
+
+let tuple: any[] = [1, true, 'aa'];
+console.log(tuple);
