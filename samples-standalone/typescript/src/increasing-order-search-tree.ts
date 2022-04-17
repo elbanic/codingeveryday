@@ -36,6 +36,8 @@ namespace increasing_order_search_tree {
             node.right = res.shift();
             node = node.right;
         }
+        node.left = null;
+        node.right = null;
         return root;
     };
 
