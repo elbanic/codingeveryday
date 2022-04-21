@@ -1,3 +1,7 @@
+
+import {readFile} from 'fs'
+import * as R from "ramda"
+
 let message: string = "Hello World";
 
 console.log(message);
@@ -13,7 +17,6 @@ console.log(a);
 
 a = 1;
 console.log(a);
-
 
 let b = 'b';
 console.log(b);
@@ -46,3 +49,20 @@ console.log(good3);
 
 let tuple: any[] = [1, true, 'aa'];
 console.log(tuple);
+
+
+const array: number[] = R.range(1,10)
+R.pipe(
+    R.tap(n => console.log(n))
+)(array)
+
+R.tap(n => console.log(n))(array)
+console.log(array)
+
+const incNumber = R.pipe(
+    R.tap(a => console.log('before inc:', a)),
+    R.map(R.inc),
+    R.tap(a => console.log('after inc:', a))
+)
+
+const newNumber = incNumber(array)
