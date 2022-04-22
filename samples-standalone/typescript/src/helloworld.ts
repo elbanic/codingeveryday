@@ -1,6 +1,7 @@
 
-import {readFile} from 'fs'
+import { readFile } from 'fs'
 import * as R from "ramda"
+import * as C from 'chance'
 
 let message: string = "Hello World";
 
@@ -41,8 +42,8 @@ interface IPerson2 {
     etc?: boolean
 }
 
-let good2: IPerson2 = { name: 'Jack', age:32};
-let good3: IPerson2 = { name: 'Jack', age:32, etc: true};
+let good2: IPerson2 = { name: 'Jack', age: 32 };
+let good3: IPerson2 = { name: 'Jack', age: 32, etc: true };
 
 console.log(good2);
 console.log(good3);
@@ -51,7 +52,7 @@ let tuple: any[] = [1, true, 'aa'];
 console.log(tuple);
 
 
-const array: number[] = R.range(1,10)
+const array: number[] = R.range(1, 10)
 R.pipe(
     R.tap(n => console.log(n))
 )(array)
@@ -66,3 +67,21 @@ const incNumber = R.pipe(
 )
 
 const newNumber = incNumber(array)
+
+type NumberToBooleanFunc = (n: number) => boolean
+export const selectRange = (min: number, max: number): NumberToBooleanFunc =>
+    R.allPass([
+        R.lte(min),
+        R.gt(max)
+    ])
+
+R.pipe(
+    R.filter(selectRange(3, 6 + 1)),
+    R.tap(n => console.log(n)) // [ 3, 4, 5, 6 ]
+)(R.range(1, 10 + 1))
+
+
+const c = new C.Chance
+
+console.log(c.latitude())
+console.log(c.longitude())
