@@ -16,33 +16,65 @@ namespace peeking_iterator {
         }
     }
 
+    // class PeekingIterator {
+    //     nums: number[]
+    //     pointer: number
+    //     constructor(iterator: Iterator) {
+    //         this.nums = new Array()
+    //         while (iterator.hasNext()) {
+    //             this.nums.push(iterator.next())
+    //         }
+    //         this.pointer = -1
+    //     }
+
+    //     peek(): number {
+    //         return this.nums[this.pointer+1]
+    //     }
+
+    //     hasNext(): boolean {
+    //         return this.pointer < this.nums.length - 1
+    //     }
+
+    //     next(): number {
+    //         this.pointer = Math.min(this.pointer + 1, this.nums.length)
+    //         return this.nums[this.pointer]
+    //     }
+    // }
 
     class PeekingIterator {
-        nums: number[]
+        iter: Iterator
         pointer: number
+        peeked: number
         constructor(iterator: Iterator) {
-            this.nums = new Array()
-            while (iterator.hasNext()) {
-                this.nums.push(iterator.next())
-            }
+            this.iter = iterator
             this.pointer = -1
+            this.peeked = undefined
         }
 
         peek(): number {
-            return this.nums[this.pointer+1]
+            if (this.peeked == undefined) {
+                if (this.iter.hasNext()) {
+                    this.peeked = this.iter.next()
+                }
+            }
+            return this.peeked
         }
 
-        hasNext(): boolean {
-            return this.pointer < this.nums.length - 1
+        hasNext(): boolean {            
+            return this.peeked != undefined || this.iter.hasNext()
         }
 
         next(): number {
-            this.pointer = Math.min(this.pointer + 1, this.nums.length)
-            return this.nums[this.pointer]
+            if (this.peeked != undefined) {
+                const temp = this.peeked
+                this.peeked = undefined
+                return temp
+            }
+            return this.iter.next()
         }
     }
 
-    let iterator = new Iterator([1,2,3])
+    let iterator = new Iterator([1, 2, 3])
     let obj = new PeekingIterator(iterator)
 
     console.log(obj.next())
