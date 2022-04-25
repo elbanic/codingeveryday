@@ -1,5 +1,3 @@
-import { Pass } from "Test"
-
 
 namespace design_underground_system {
 
