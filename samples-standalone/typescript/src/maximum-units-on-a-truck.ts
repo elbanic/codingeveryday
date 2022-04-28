@@ -1,5 +1,3 @@
-
-
 namespace maximum_units_on_a_truck {
 
     function maximumUnits(boxTypes: number[][], truckSize: number): number {
@@ -25,6 +23,7 @@ namespace maximum_units_on_a_truck {
         }
         return sum
     }
+
     let boxTypes = [[1,3],[5,5],[2,5],[4,2],[4,1],[3,1],[2,2],[1,3],[2,5],[3,2]], truckSize = 35
     console.log(maximumUnits(boxTypes, truckSize))
 }
