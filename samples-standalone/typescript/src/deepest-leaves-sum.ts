@@ -25,7 +25,6 @@ namespace deepest_leaves_sum {
         const queueB: TreeNode[] = new Array()
         let lastStatus: TreeNode[]
 
-        let deepestLeaves = 0
         while (queueA.length > 0 || queueB.length > 0) {
             if (queueA.length > 0) {
                 lastStatus = [...queueA]
