@@ -12,6 +12,9 @@ namespace construct_binary_tree_from_string {
     }
 
     function str2tree(s: string): TreeNode | null {
+        if (s.length == 0) {
+            return null
+        }
 
         const str = s.split(/[(|)]+/).map(x => Number(x))
         const stack: TreeNode[] = new Array(new TreeNode(str[0]))
