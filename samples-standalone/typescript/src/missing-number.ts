@@ -1,8 +1,10 @@
 namespace missing_number {
+
+    //binary search
     function missingNumber(nums: number[]): number {
 
-        nums.sort()
-        if (nums[nums.length - 1] != nums.length) {
+        nums.sort((a,b) => a - b)
+        if (nums[nums.length-1] != nums.length) {
             return nums.length
         }
 
@@ -16,7 +18,11 @@ namespace missing_number {
                 right = mid - 1
             }
         }
-        return nums[mid] - 1
+        if (left == mid) {
+            return nums[mid] - 1
+        } else {
+            return nums[mid] + 1
+        }
     };
 
 
@@ -31,6 +37,6 @@ namespace missing_number {
         return nums.length
     }
 
-    const nums = [45,35,38,13,12,23,48,15,44,21,43,26,6,37,1,19,22,3,11,32,4,16,28,49,29,36,33,8,9,39,46,17,41,7,2,5,27,20,40,34,30,25,47,0,31,42,24,10,14]
-    console.log(missingNumber2(nums))
+    const nums = [0,2,3]
+    console.log(missingNumber(nums))
 }
