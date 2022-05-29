@@ -18,11 +18,8 @@ namespace missing_number {
                 right = mid - 1
             }
         }
-        if (left == mid) {
-            return nums[mid] - 1
-        } else {
-            return nums[mid] + 1
-        }
+
+        return left == mid ? nums[mid] - 1 : nums[mid] + 1
     };
 
 
