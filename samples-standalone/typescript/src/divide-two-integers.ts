@@ -57,7 +57,6 @@ namespace divide_two_integers {
             return -quotient;
         }
         return quotient;
-
     }
 
     const dividend = -2147483648, divisor = 4
