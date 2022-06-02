@@ -20,8 +20,7 @@ namespace transpose_matrix {
                 newMatrix[j][i] = matrix[i][j]
             }
         }
-
-        return null
+        return newMatrix
     };
 
     const matrix = [[1,2,3],[4,5,6]]
