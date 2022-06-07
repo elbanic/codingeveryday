@@ -19,16 +19,16 @@ namespace intersection_of_two_linked_lists {
 
     function getIntersectionNode(headA: ListNode | null, headB: ListNode | null): ListNode | null {
 
-        const map: Map<number, ListNode> = new Map<number, ListNode>()
+        const set: Set<ListNode> = new Set<ListNode>()
         let curr = headA
         while (curr) {
-            map.set(curr.val, curr)
+            set.add(curr)
             curr = curr.next
         }
         curr = headB
         while (curr) {
-            if (map.has(curr.val)){
-                return map.get(curr.val)
+            if (set.has(curr)){
+                return curr
             }
             curr = curr.next
         }
