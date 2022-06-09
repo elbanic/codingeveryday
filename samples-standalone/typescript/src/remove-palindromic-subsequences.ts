@@ -1,13 +1,12 @@
 namespace remove_palindromic_subsequences {
 
     function removePalindromeSub(s: string): number {
-
-        return helper(s, 0)
+        return helper(s, 1)
     };
 
     function helper(s: string, depth: number): number {
         if (isPalindrome(s)) {
-            return depth+1
+            return depth
         }
 
         if (s == '') {
