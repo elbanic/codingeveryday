@@ -72,7 +72,7 @@ namespace search_suggestions_system {
         let output: string[][] = new Array()
         for (let i = 0; i < searchWord.length; i++) {
             word += searchWord[i]
-            const found = trie.searchLike(word)
+            const found = trie.searchLike(word) 
             if (found.length == 0) { break }
             output.push(found)
         }
