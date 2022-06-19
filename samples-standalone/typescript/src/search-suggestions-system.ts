@@ -3,6 +3,7 @@
 namespace search_suggestions_system {
 
     let ALPHABET_SIZE = 26;
+    let ALPHABETS = "abcdefghijklmnopqrstuvwxyz".split("")
 
     class TrieNode {
         isEndOfWord: boolean
@@ -32,8 +33,22 @@ namespace search_suggestions_system {
                 }
                 pCrawl = pCrawl.children[index]
             }
-
             pCrawl.isEndOfWord = true;
+        }
+
+        findAllWords(trie: TrieNode, key: string, output: string[]): string[] {
+            if (trie.isEndOfWord) {
+                output.push(key)
+            }
+            if (output.length >= 3) {
+                return output
+            }
+            for (let child =0; child<trie.children.length; child++) {
+                if (trie.children[child]) {
+                    output = this.findAllWords(trie.children[child], key + ALPHABETS[child], output)
+                }
+            }
+            return output
         }
 
         searchLike(key: string): string[] {
@@ -48,16 +63,7 @@ namespace search_suggestions_system {
                 pCrawl = pCrawl.children[index];
             }
 
-            let output: string[] = new Array()
-            let currKey = key
-
-            while (pCrawl) {
-                if (pCrawl.isEndOfWord) {
-                    output.push(currKey)
-                }
-                pCrawl.children
-            }
-            return output
+            return this.findAllWords(pCrawl, key, new Array())
         }
     }
 
@@ -68,12 +74,11 @@ namespace search_suggestions_system {
             trie.insert(prod)
         }
 
-        let word: string
+        let word: string = ""
         let output: string[][] = new Array()
         for (let i = 0; i < searchWord.length; i++) {
             word += searchWord[i]
-            const found = trie.searchLike(word) 
-            if (found.length == 0) { break }
+            const found = trie.searchLike(word)
             output.push(found) 
         }
         return output
