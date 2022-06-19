@@ -74,7 +74,7 @@ namespace search_suggestions_system {
             word += searchWord[i]
             const found = trie.searchLike(word) 
             if (found.length == 0) { break }
-            output.push(found)
+            output.push(found) 
         }
         return output
     };
