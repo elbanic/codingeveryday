@@ -1,4 +1,4 @@
-namespace isomorphic_strings {
+namespace isiomorphic_strings {
     function isIsomorphic(s: string, t: string): boolean {
         if (s.length != t.length) {
             return false
