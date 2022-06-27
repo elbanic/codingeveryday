@@ -11,6 +11,10 @@ namespace non_decreasing_array {
                 break
             }
         }
+        if (!a) {
+            return true
+        }
+        
         for (let i = 0; i < a.length - 1; i++) {
             if (a[i] > a[i + 1]) {
                 aRes = false
