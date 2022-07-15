@@ -56,7 +56,7 @@ namespace binary_tree_level_order_traversal {
                     }
                 }
             }
-            result.push(row)
+            if (row.length > 0) result.push(row)
         }
 
         return result
