@@ -42,8 +42,6 @@ namespace shortest_distance_to_target_color {
         return -1
     }
 
-    console.log(bsearch([1,1,2,1,3,2,2,3,3], 1))
-    console.log(bsearch([1,1,2,1,3,2,2,3,3], 4))
     const colors = [1,1,2,1,3,2,2,3,3], queries = [[1,3],[2,2],[6,1]]
     console.log(shortestDistanceColor(colors, queries))
 }
