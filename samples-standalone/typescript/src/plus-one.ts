@@ -24,7 +24,7 @@ namespace plus_one {
         return newDigits
     };
 
-    //test
+    //test1
     const digits = [9,8,9]
     console.log(plusOne(digits))
 }
