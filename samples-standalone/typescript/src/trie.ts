@@ -1,5 +1,7 @@
 let ALPHABET_SIZE = 26;
 
+//test
+
 class TrieNode {
     isEndOfWord: boolean
     children: TrieNode[]
