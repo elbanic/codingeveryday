@@ -24,12 +24,11 @@ namespace flatten_2d_vector {
 
         hasNext(): boolean {
             if (this.i < this.vec.length) {
-                if (this.j >= this.vec[this.i].length) {
+                if (this.j < this.vec[this.i].length) {
+                    return true
+                } else {
                     this.i++
                     this.j = 0
-                }
-                if (this.vec[this.i][this.j] != null) {
-                    return true
                 }
                 return this.hasNext()
             } else {
