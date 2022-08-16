@@ -30,7 +30,7 @@ namespace lowest_common_ancestor_of_a_binary_search_tree {
     }
 
     function lowestCommonAncestor(root: TreeNode | null, p: TreeNode | null, q: TreeNode | null): TreeNode | null {
-        
+
         const queue: TreeNode[][] = new Array()
         queue.push(new Array(root))
 
@@ -38,30 +38,30 @@ namespace lowest_common_ancestor_of_a_binary_search_tree {
 
         while (queue.length > 0) {
             const last = queue.shift()
-            if (last[last.length-1].val == p.val) {
+            if (last[last.length - 1].val == p.val) {
                 pAnc = [...last]
             }
-            if (last[last.length-1].val == q.val) {
+            if (last[last.length - 1].val == q.val) {
                 qAnc = [...last]
             }
             if (pAnc != undefined && qAnc != undefined) {
                 break
             }
 
-            if (last[last.length-1].left != null) {
+            if (last[last.length - 1].left != null) {
                 const temp = [...last]
-                temp.push(last[last.length-1].left)
+                temp.push(last[last.length - 1].left)
                 queue.push(temp)
             }
-            if (last[last.length-1].right != null) {
+            if (last[last.length - 1].right != null) {
                 const temp = [...last]
-                temp.push(last[last.length-1].right)
+                temp.push(last[last.length - 1].right)
                 queue.push(temp)
             }
         }
 
         let cur = pAnc[0]
-        for (let i=0; i<Math.min(pAnc.length, qAnc.length); i++) {
+        for (let i = 0; i < Math.min(pAnc.length, qAnc.length); i++) {
             if (pAnc[i].val == qAnc[i].val) {
                 cur = pAnc[i]
             } else {
@@ -73,7 +73,7 @@ namespace lowest_common_ancestor_of_a_binary_search_tree {
 
 
 
-    const root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4
+    const root = [6, 2, 8, 0, 4, 7, 9, null, null, 3, 5], p = 2, q = 4
     const rootTree = createTreeNode(root)
     console.log(lowestCommonAncestor(rootTree, new TreeNode(p), new TreeNode(q)))
 
